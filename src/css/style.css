@@ -1,0 +1,265 @@
+body {
+  background: url("/src/images/bgmain.png") no-repeat center center fixed;
+  background-size: cover;
+  font-family: Lekton, sans-serif;
+  margin: 0;
+}
+
+.bg-image1 {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin-left: auto;
+  width: 280px;
+  z-index: 1;
+}
+
+/* .bg-image2 {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  margin-right: auto;
+  width: 280px;
+  z-index: 1;
+} */
+
+.container {
+  background-color: #f5f7fb;
+  height: auto;
+  margin: 100px;
+  border-radius: 30px 30px 30px 30px;
+}
+
+.header {
+  height: 70px;
+  width: auto;
+  background-color: rgb(0, 153, 255);
+  box-shadow: 3px 3px 3px grey;
+  position: relative;
+  z-index: 50;
+  border-radius: 30px 30px 0px 0px;
+  /* color: #fffad1; */
+  color: white;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 12px;
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* .category {
+  display: flex;
+  justify-content: left;
+  margin-left: 20px;
+  position: relative;
+  bottom: 30px;
+} */
+
+.welcome {
+  position: relative;
+  top: 20%;
+  text-align: center;
+}
+
+.ready-button {
+  color: white;
+  background-color: rgb(0, 153, 255);
+  border: 2px solid black;
+  width: 150px;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 8px;
+  font-weight: 700;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.ready-button-box {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.ready-button:hover {
+  background-color: rgb(252, 216, 118);
+  transition-delay: 0.1s;
+}
+
+.ready-button:focus {
+  background-color: rgb(180, 179, 177);
+}
+
+.game-container {
+  margin: 20px;
+}
+
+.question {
+  color: rgb(0, 0, 0);
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* .answer-button { --deprecated, old div button code
+  text-align: center;
+  background-color: white;
+  width: 100px;
+  box-shadow: 2px 2px 2px 2px grey;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 5px;
+  font-weight: 700;
+  border: 1px solid black;
+} */
+
+.answer-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 40px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+/* .answer-radio { --no
+  display: flex;
+  margin-bottom: 36px;
+  overflow: hidden;
+  width: 100px;
+  box-shadow: 2px 2px 2px 2px grey;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 5px;
+  font-weight: 700;
+  border: 1px solid black;
+} */
+
+.answer-radio:checked ~ label {
+  background-color: blue;
+}
+
+.selected-text {
+  background-color: blue;
+}
+
+/* .answer-radio input {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  border: 0;
+  overflow: hidden;
+} */
+
+input[type="radio"] {
+  margin-right: 0.75rem;
+}
+
+/* .answer-radio label {
+  text-align: center;
+  background-color: white;
+  width: 100px;
+  box-shadow: 2px 2px 2px 2px grey;
+  border-radius: 15px;
+  cursor: pointer;
+  padding: 5px;
+  font-weight: 700;
+  border: 1px solid black;
+} */
+
+.answer-radio label {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-size: 14px;
+  padding: 8px;
+  font-weight: 700;
+  border: 2px solid black;
+  border-radius: 20px;
+  margin: 5px;
+  display: flex; /* need flix to avoid split and wraparound */
+  width: auto;
+  cursor: pointer;
+}
+
+/* .answer-radio input:checked + label {
+  background-color: rgb(175, 60, 60);
+}
+ these two don't work ^v
+input:checked {
+  background-color: green;
+} */
+
+/* .answer-button:hover {
+  background-color: rgb(252, 216, 118);
+  transition-delay: 0.1s;
+}
+
+.answer-button:focus {
+  background-color: rgb(180, 179, 177);
+} */
+.submit-button {
+  color: white;
+  background-color: rgb(0, 153, 255);
+  border: 2px solid black;
+  width: 150px;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 8px;
+  font-weight: 700;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.submit-button:hover {
+  background-color: rgb(252, 216, 118);
+  transition-delay: 0.1s;
+}
+
+.submit-button:focus {
+  background-color: rgb(180, 179, 177);
+}
+
+.submit-buttonbox {
+  display: flex;
+  justify-content: center;
+}
+
+.newgame-button {
+  color: white;
+  background-color: rgb(0, 153, 255);
+  border: 2px solid black;
+  width: 150px;
+  border-radius: 15px;
+  cursor: pointer;
+  padding: 8px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.newgame-button:hover {
+  background-color: rgb(252, 216, 118);
+  transition-delay: 0.1s;
+}
+
+.newgame-button:focus {
+  background-color: rgb(180, 179, 177);
+}
+
+.loading {
+  margin: 20px;
+}
+
+.footer {
+  height: 50px;
+  background-color: rgb(0, 153, 255);
+  border-radius: 0px 0px 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fffad1;
+}
