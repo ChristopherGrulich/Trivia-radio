@@ -28,8 +28,8 @@ export default function App() {
       {isNew && (
         <div>
           <Welcome />
-          <div className="ready-button-box">
-            <div className="ready-button" onClick={isReady}>
+          <div className="button-box">
+            <div className="button" onClick={isReady}>
               I'm ready!
             </div>
           </div>

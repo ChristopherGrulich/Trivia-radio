@@ -15,6 +15,7 @@ export default function Trivia() {
           answerid: nanoid(),
           answer: "|mappedAnswer|",
           correct_answer: "correct_answer",
+          isToggled: false,
         },
       ],
       correct_answer: "|correct_answer|",
@@ -41,7 +42,7 @@ export default function Trivia() {
 
   function submit() {
     const nodeList = document.querySelectorAll('input[type="radio"]:checked');
-    // on to something here!! // Yureka!
+    // on to something here!!
     [...nodeList].forEach((element) => {
       if (element.value == element.getAttribute("correct_answer")) {
         setScoreCount((prev) => prev + 1);
@@ -59,17 +60,15 @@ export default function Trivia() {
   }
 
   // function onChange(answerId) {
-  //   document.getElementById({ answerId }).addEventListener("change", () => {
-  //     document
-  //       .querySelector(`label[for=${answerId}]`)
-  //       .classList.add("selected-text");
+  //   document.getElementById({ answerId }).addEventListener("click", () => {
+  //     document.querySelector(`label[type="radio"]`).classList.add("");
   //   });
   // }
 
   // function onChange() {
   //   document.querySelectorAll(
-  //     'input[type="radio"]:checked'
-  //   ).style.backgroundColor = "blue";
+  //     'label[type="radio"]:checked'
+  //   ).style.backgroundColor = "red";
   // }
 
   function Trivia() {
@@ -83,16 +82,19 @@ export default function Trivia() {
                 return (
                   <div className="answer-radio" key={nanoid()}>
                     <label for={innerItem.answerId}>
-                      <input
-                        type="radio"
-                        id={innerItem.answerId} // giving form and label their own pair id, allows clicking on label for same radio.
-                        value={innerItem.answer}
-                        name={item.questionId} // groups answers together
-                        correct_answer={item.correct_answer}
-                        // onChange={onChange}
-                        // onChange={onChange(innerItem.answerId)}
-                      />
-                      {innerItem.answer}
+                      <div class="radiobox-test">
+                        <input
+                          type="radio"
+                          id={innerItem.answerId} // giving form and label their own pair id, allows clicking on label for same radio.
+                          value={innerItem.answer}
+                          name={item.questionId} // groups answers together
+                          correct_answer={item.correct_answer}
+                          // checked={}
+                          // onChange={onChange}
+                          // onChange={onChange(innerItem.answerId)}
+                        />
+                        {innerItem.answer}
+                      </div>
                     </label>
                     <br></br>
                   </div>
@@ -118,14 +120,16 @@ export default function Trivia() {
             </div>
           )}
           <h3>Up for another round?</h3>
-          <div className="newgame-button" onClick={newGame}>
+          <div className="button" onClick={newGame}>
             Start New Game
           </div>
         </div>
       )}
       {gameStage === 0 && (
-        <div className="submit-button" onClick={submit}>
-          Submit Answers
+        <div className="button-box">
+          <div className="button" onClick={submit}>
+            Submit Answers
+          </div>
         </div>
       )}
       {/* <button onClick={submit}>Submit</button> form button also needs to be within form*/}
