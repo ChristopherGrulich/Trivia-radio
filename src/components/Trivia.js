@@ -3,6 +3,7 @@ import createStateObj from "../utility/createStateObj";
 import { nanoid } from "nanoid";
 import ReactConfetti from "react-confetti";
 import { trackPromise } from "react-promise-tracker";
+import QuestionAnswer from "./QuestionAnswer";
 
 export default function Trivia() {
   const [gameData, setGameData] = React.useState([
@@ -40,76 +41,52 @@ export default function Trivia() {
     );
   }, [startNewGame]);
 
-  function submit() {
-    const nodeList = document.querySelectorAll('input[type="radio"]:checked');
-    // on to something here!!
-    [...nodeList].forEach((element) => {
-      if (element.value == element.getAttribute("correct_answer")) {
-        setScoreCount((prev) => prev + 1);
-        console.log("Yurekah!"); // testing purposes
-      } //add background coloring here
-      // classname ".answer-radio label"
-    });
+  function submit(e, answer, correctAnswer) {
+    if (answer == correctAnswer) {
+      //set stage questio isCorrect true, else if answer != correctAnswer false, else null
+    }
+    e.preventDefault();
+    console.log("Submit function");
     setGameStage(1); //Proceed to stage 1
   }
 
+  function onChange() {
+    // undo previous boolean and change next
+    console.log("onChange function");
+    // document.querySelectorAll(
+    //   'label[type="radio"]:checked'
+    // ).style.backgroundColor = "red";
+  }
+
   function newGame() {
+    console.log("newGame function");
     setGameStage(0); //Restart Game
     setStartNewGame((prev) => !prev);
     setScoreCount(0);
   }
 
-  // function onChange(answerId) {
-  //   document.getElementById({ answerId }).addEventListener("click", () => {
-  //     document.querySelector(`label[type="radio"]`).classList.add("");
-  //   });
-  // }
-
-  // function onChange() {
-  //   document.querySelectorAll(
-  //     'label[type="radio"]:checked'
-  //   ).style.backgroundColor = "red";
-  // }
-
-  function Trivia() {
-    return gameData?.map((item) => {
-      return (
-        <form>
-          <div className="questionanswer-container" key={nanoid()}>
-            <p className="question">{item.question}</p>
-            <div className="answer-container">
-              {item?.answerObjects?.map((innerItem) => {
-                return (
-                  <div className="answer-radio" key={nanoid()}>
-                    <label for={innerItem.answerId}>
-                      <div class="radiobox-test">
-                        <input
-                          type="radio"
-                          id={innerItem.answerId} // giving form and label their own pair id, allows clicking on label for same radio.
-                          value={innerItem.answer}
-                          name={item.questionId} // groups answers together
-                          correct_answer={item.correct_answer}
-                          // checked={}
-                          // onChange={onChange}
-                          // onChange={onChange(innerItem.answerId)}
-                        />
-                        {innerItem.answer}
-                      </div>
-                    </label>
-                    <br></br>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </form>
-      );
-    });
-  }
-
   return (
     <div className="game-container">
-      <Trivia />
+      <form onSubmit={submit(answer, correctAnswer)}>
+        // WIP, we need to submit with answer and correct answer params, then
+        toggle if isCorrect or not
+        <QuestionAnswer
+          gameData={gameData}
+          onChange={onChange}
+          gameStage={gameStage}
+        />
+        {gameStage === 0 && (
+          <div className="button-box">
+            <button
+              className="button"
+              // onClick={submit}
+              type="submit"
+            >
+              Submit Answers
+            </button>
+          </div>
+        )}
+      </form>
       {gameStage === 1 && (
         <div>
           <h2>Score: {scoreCount} / 5</h2>
@@ -125,14 +102,28 @@ export default function Trivia() {
           </div>
         </div>
       )}
-      {gameStage === 0 && (
-        <div className="button-box">
-          <div className="button" onClick={submit}>
-            Submit Answers
-          </div>
-        </div>
-      )}
       {/* <button onClick={submit}>Submit</button> form button also needs to be within form*/}
     </div>
   );
 }
+
+// function onChange(answerId) {
+//   document.getElementById({ answerId }).addEventListener("click", () => {
+//     document.querySelector(`label[type="radio"]`).classList.add("");
+//   });
+// }
+
+//
+//
+// function submit() {
+//   const nodeList = document.querySelectorAll('input[type="radio"]:checked');
+//   // on to something here!!
+//   [...nodeList].forEach((element) => {
+//     if (element.value == element.getAttribute("correct_answer")) {
+//       setScoreCount((prev) => prev + 1);
+//       console.log("Yurekah!"); // testing purposes
+//     } //add background coloring here
+//     // classname ".answer-radio label"
+//   });
+//   setGameStage(1); //Proceed to stage 1
+// }

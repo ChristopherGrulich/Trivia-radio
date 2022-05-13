@@ -132,7 +132,7 @@ body {
 }
 
 input {
-  background-color: red !important;
+  background-color: olive !important;
 }
 
 input:checked + label {
@@ -156,6 +156,19 @@ input:checked + label {
   color: orange;
 }
 
+.radiobox-test input:checked {
+  background-color: cyan;
+}
+
+.radiobox-test input[type="radio"]:checked {
+  margin-right: 0.75rem;
+  background-color: blue !important;
+}
+
+.radiobox-test {
+  background-color: red;
+}
+
 /* .answer-radio input {
   position: absolute !important;
   clip: rect(0, 0, 0, 0);
@@ -164,11 +177,6 @@ input:checked + label {
   border: 0;
   overflow: hidden;
 } */
-
-input[type="radio"] {
-  margin-right: 0.75rem;
-  /* background-color: blue !important; */
-}
 
 .answer-radio label {
   text-align: center;
@@ -180,19 +188,10 @@ input[type="radio"] {
   border: 2px solid black;
   border-radius: 15px;
   margin: 5px;
-  display: flex; /* need flix to avoid split and wraparound */
-  width: auto;
+  display: flex;
+  width: 120px;
   cursor: pointer;
 }
-
-/* .answer-button:hover {
-  background-color: rgb(252, 216, 118);
-  transition-delay: 0.1s;
-}
-
-.answer-button:focus {
-  background-color: rgb(180, 179, 177);
-} */
 
 .loading {
   margin: 20px;
