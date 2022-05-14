@@ -3,11 +3,11 @@ import createStateObj from "../utility/createStateObj";
 import { nanoid } from "nanoid";
 import ReactConfetti from "react-confetti";
 import { trackPromise } from "react-promise-tracker";
-import QuestionAnswer from "./QuestionAnswer";
+import Question from "./Question";
+import Answers from "./Answers";
 
 export default function Trivia() {
   const [gameData, setGameData] = React.useState([
-    //gameData = [{}] from results
     {
       questionId: nanoid(),
       question: "|question|",
@@ -16,15 +16,16 @@ export default function Trivia() {
           answerid: nanoid(),
           answer: "|mappedAnswer|",
           correct_answer: "correct_answer",
-          isToggled: false,
+          toggled: false, // new
         },
       ],
       correct_answer: "|correct_answer|",
+      isCorrect: false, //new
     },
   ]);
   const [startNewGame, setStartNewGame] = React.useState(false);
   const [scoreCount, setScoreCount] = React.useState(0);
-  const [gameStage, setGameStage] = React.useState(0);
+  const [gameStage, setGameStage] = React.useState(-0);
   // gameStage: Where we are on the app: 0 for fresh arrival on game page, 1 for submitted state, 2 for new game state
 
   React.useEffect(() => {
@@ -41,21 +42,69 @@ export default function Trivia() {
     );
   }, [startNewGame]);
 
-  function submit(e, answer, correctAnswer) {
-    if (answer == correctAnswer) {
-      //set stage questio isCorrect true, else if answer != correctAnswer false, else null
-    }
-    e.preventDefault();
-    console.log("Submit function");
-    setGameStage(1); //Proceed to stage 1
+  // wouldn't it just make more sense for it to be a submit button?
+  function answerClick(question) {
+    console.log("Answer Click function");
+    setGameData((prevData) => {
+      //
+      return prevData?.map((pam) => {
+        const updIsCorrect = pam?.answerObjects?.map((innerPam) => {
+          if (
+            question == pam.question &&
+            pam.correct_answer == innerPam.answer
+          ) {
+            console.log("correct");
+            //SET QUESTION ISCORRECT TRUE
+            //return updated answer object
+            // return {
+            //   ...pam,
+            //   isCorrect: true,
+            // };
+            return true;
+          } else if (
+            question == pam.question &&
+            pam.correct_answer != innerPam.answer
+          ) {
+            console.log("incorrect");
+            //SET QUESTION ISCORRECT FALSE
+            //return updated answer object
+            // return {
+            //   ...pam,
+            //   isCorrect: false,
+            // };
+            return false;
+          } else {
+            console.log("null");
+            //SET QUESTION ISCORRECT NULL
+            //return updated answer object
+            // return {
+            //   ...pam,
+            //   isCorrect: null,
+            // };
+            return null;
+          }
+        });
+        //
+        return {
+          ...pam,
+          isCorrect: updIsCorrect,
+        };
+      });
+    });
   }
 
-  function onChange() {
-    // undo previous boolean and change next
-    console.log("onChange function");
-    // document.querySelectorAll(
-    //   'label[type="radio"]:checked'
-    // ).style.backgroundColor = "red";
+  function submitGame() {
+    console.log("Submit function");
+    gameData?.map((element) => {
+      if (element.isCorrect == true) {
+        setScoreCount((prev) => prev + 1);
+        console.log("Correct +1");
+      }
+    });
+    //for each is correct, score + 1
+    //count how many questions have isCorrect true
+    //this equals the score state
+    setGameStage(1); //Proceed to stage 1
   }
 
   function newGame() {
@@ -65,28 +114,38 @@ export default function Trivia() {
     setScoreCount(0);
   }
 
+  const triviaElements =
+    // here.,.. gameData.map is not a function?!?!?
+    gameData?.map((item) => {
+      return (
+        <div className="game-container" key={nanoid()}>
+          <Question question={item.question} isCorrect={item.isCorrect} />
+          {item.answerObjects.map((innerItem) => {
+            return (
+              <div>
+                <Answers
+                  answer={innerItem.answer}
+                  answerClick={() => answerClick(item.question)}
+                  toggled={innerItem.toggled} // new, styling conditionals
+                />
+              </div>
+            );
+          })}
+          <hr></hr>
+        </div>
+      );
+    });
+
   return (
     <div className="game-container">
-      <form onSubmit={submit(answer, correctAnswer)}>
-        // WIP, we need to submit with answer and correct answer params, then
-        toggle if isCorrect or not
-        <QuestionAnswer
-          gameData={gameData}
-          onChange={onChange}
-          gameStage={gameStage}
-        />
-        {gameStage === 0 && (
-          <div className="button-box">
-            <button
-              className="button"
-              // onClick={submit}
-              type="submit"
-            >
-              Submit Answers
-            </button>
+      {triviaElements}
+      {gameStage === 0 && (
+        <div className="button-box">
+          <div className="button" onClick={submitGame}>
+            Submit Answers
           </div>
-        )}
-      </form>
+        </div>
+      )}
       {gameStage === 1 && (
         <div>
           <h2>Score: {scoreCount} / 5</h2>
