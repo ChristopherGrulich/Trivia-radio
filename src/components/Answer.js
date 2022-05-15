@@ -9,11 +9,11 @@ export default function Answer(props) {
     let style;
     if (gameOver && toggled && isCorrect) {
       style = {
-        backgroundColor: "green",
+        backgroundColor: "rgb(87, 183, 106)",
       };
     } else if (gameOver && toggled && isCorrect !== true) {
       style = {
-        backgroundColor: "red",
+        backgroundColor: "rgb(243, 139, 139)",
       };
     }
     // else if (gameOver && isCorrect) {
@@ -24,7 +24,7 @@ export default function Answer(props) {
     // }
     else if (gameOver === false && toggled) {
       style = {
-        backgroundColor: "rgb(0, 153, 255)",
+        backgroundColor: "rgb(94, 180, 238)",
       };
     }
 
