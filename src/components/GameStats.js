@@ -12,3 +12,4 @@ export default function GameStats(props) {
     </div>
   );
 }
+//new

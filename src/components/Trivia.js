@@ -157,6 +157,7 @@ export default function Trivia() {
       // };
     });
     // }
+    //
   }
 
   function submit() {
