@@ -43,60 +43,65 @@ export default function Trivia() {
   }, [startNewGame]);
 
   // wouldn't it just make more sense for it to be a submit button?
-  function answerClick(question) {
+  function answerClick(answerid) {
+    //
     console.log("Answer Click function");
-    setGameData((prevData) => {
+    console.log(answerid);
+    console.log(gameData);
+    setGameData((prev) => {
       //
-      return prevData?.map((pam) => {
-        const updIsCorrect = pam?.answerObjects?.map((innerPam) => {
-          if (
-            question == pam.question &&
-            pam.correct_answer == innerPam.answer
-          ) {
-            console.log("correct");
-            //SET QUESTION ISCORRECT TRUE
-            //return updated answer object
-            // return {
-            //   ...pam,
-            //   isCorrect: true,
-            // };
-            return true;
-          } else if (
-            question == pam.question &&
-            pam.correct_answer != innerPam.answer
-          ) {
-            console.log("incorrect");
-            //SET QUESTION ISCORRECT FALSE
-            //return updated answer object
-            // return {
-            //   ...pam,
-            //   isCorrect: false,
-            // };
-            return false;
-          } else {
-            console.log("null");
-            //SET QUESTION ISCORRECT NULL
-            //return updated answer object
-            // return {
-            //   ...pam,
-            //   isCorrect: null,
-            // };
-            return null;
+      const updCo = prev?.map((otem) => {
+        otem?.answerObjects?.map((innerOtem) => {
+          if (answerid == innerOtem.answerid) {
           }
         });
-        //
-        return {
-          ...pam,
-          isCorrect: updIsCorrect,
-        };
       });
+      //
+      return {
+        ...prev,
+        isCorrect: updCo,
+      };
     });
+    // setGameData((prevData) => {
+    //   //
+    //   // prevData?.map((pam) => {
+    //   //   //removed return
+    //   //   // const updCorr = pam?.answerObjects?.map((answerObj) => {
+    //   //   //   if (answerid == answerObj.answerid) {
+    //   //   //     console.log("id match");
+    //   //   //     if (pam.correct_answer == answerObj.answer) {
+    //   //   //       return true;
+    //   //   //       // console.log("correct and id match");
+    //   //   //     } else if (pam.correct_answer != answerObj.answer) {
+    //   //   //       return false;
+    //   //   //       // console.log("incorrect and id match");
+    //   //   //     } else {
+    //   //   //       // console.log("null and id match");
+    //   //   //       //SET QUESTION ISCORRECT NULL
+    //   //   //       //return updated answer object
+    //   //   //       // return {
+    //   //   //       //   ...pam,
+    //   //   //       //   isCorrect: null,
+    //   //   //       // };
+    //   //   //     }
+    //   //   //     return {
+    //   //   //       ...pam,
+    //   //   //       isCorrect: updCorr,
+    //   //   //     };
+    //   //   //   }
+    //   //   // });
+    //   //   // if answerid == answerid then if correct answer = answer, then
+    //   //   //
+    //   // });
+    //   //
+    // });
+    //
   }
 
   function submitGame() {
     console.log("Submit function");
-    gameData?.map((element) => {
-      if (element.isCorrect == true) {
+    gameData?.map((el) => {
+      if (el.isCorrect == true) {
         setScoreCount((prev) => prev + 1);
         console.log("Correct +1");
       }
@@ -114,49 +119,51 @@ export default function Trivia() {
     setScoreCount(0);
   }
 
-  const triviaElements =
-    // here.,.. gameData.map is not a function?!?!?
-    gameData?.map((item) => {
-      return (
-        <div className="game-container" key={nanoid()}>
-          <Question question={item.question} isCorrect={item.isCorrect} />
-          {item.answerObjects.map((innerItem) => {
+  const triviaElements = gameData?.map((item) => {
+    return (
+      <div className="game-container" key={nanoid()}>
+        <Question question={item.question} isCorrect={item.isCorrect} />
+        <div className="answer-container" key={nanoid()}>
+          {item?.answerObjects?.map((innerItem) => {
             return (
-              <div>
+              <div key={nanoid()}>
                 <Answers
                   answer={innerItem.answer}
-                  answerClick={() => answerClick(item.question)}
-                  toggled={innerItem.toggled} // new, styling conditionals
+                  answerClick={
+                    () => answerClick(innerItem.answerid) // problem is here
+                  }
+                  // toggled={innerItem.toggled} // new, styling conditionals
                 />
               </div>
             );
           })}
-          <hr></hr>
         </div>
-      );
-    });
+        <hr></hr>
+      </div>
+    );
+  });
 
   return (
     <div className="game-container">
       {triviaElements}
       {gameStage === 0 && (
-        <div className="button-box">
-          <div className="button" onClick={submitGame}>
+        <div className="button-box" key={nanoid()}>
+          <div className="button" onClick={submitGame} key={nanoid()}>
             Submit Answers
           </div>
         </div>
       )}
       {gameStage === 1 && (
-        <div>
+        <div key={nanoid()}>
           <h2>Score: {scoreCount} / 5</h2>
           {scoreCount == 5 && (
-            <div>
+            <div key={nanoid()}>
               <ReactConfetti />
               <h2>Perfect score, congrats!</h2>
             </div>
           )}
           <h3>Up for another round?</h3>
-          <div className="button" onClick={newGame}>
+          <div className="button" onClick={newGame} key={nanoid()}>
             Start New Game
           </div>
         </div>
