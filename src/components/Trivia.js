@@ -5,6 +5,7 @@ import createStateObj from "../utility/createStateObj";
 import { nanoid } from "nanoid";
 import ReactConfetti from "react-confetti";
 import { trackPromise } from "react-promise-tracker";
+import GameStats from "./GameStats";
 
 export default function Trivia() {
   const [gameData, setGameData] = React.useState([
@@ -12,7 +13,7 @@ export default function Trivia() {
       question: "|question|",
       answerObjects: [
         {
-          answerid: nanoid(),
+          answerid: "nanoid",
           answer: "|mappedAnswer|",
           isCorrect: false,
           toggled: false,
@@ -21,10 +22,16 @@ export default function Trivia() {
       correct_answer: "|correct_answer|",
     },
   ]);
+  const [gameStats, setGameStats] = React.useState(
+    JSON.parse(localStorage.getItem("gameStats")) || {
+      totalGames: 0,
+      totalWins: 0,
+    }
+  );
   const [endGame, setEndGame] = React.useState(false); // once all answers selected // submit button
   const [scoreCount, setScoreCount] = React.useState(0); // track score
   const [startNewGame, setStartNewGame] = React.useState(false);
-  const [gameStage, setGameStage] = React.useState(-0);
+  const [gameStage, setGameStage] = React.useState(0);
   // gameStage: Where we are on the app: 0 for fresh arrival on game page, 1 for submitted state, 2 for new game state
 
   React.useEffect(() => {
@@ -43,15 +50,13 @@ export default function Trivia() {
     );
   }, [startNewGame]);
 
+  React.useEffect(() => {
+    localStorage.setItem("gameStats", JSON.stringify(gameStats));
+  }, [gameStats]);
+
+  //
+
   function onClick(answerid) {
-    // gameData?.map((stuff) => {
-    //   stuff?.answerObjects?.map((innerStuff) => {
-    //     if (innerStuff.toggled == true) {
-    //       console.log("onClick test");
-    //     }
-    //   });
-    // });
-    //
     setGameData((prevData) => {
       //
       return prevData?.map((pam) => {
@@ -61,8 +66,21 @@ export default function Trivia() {
             return {
               ...ansObj,
               toggled: !ansObj.toggled,
+              // toggled: true,
             };
-          } else {
+            // How to retrieve the question?! param wont work..
+          } // // // // // ===> Only do below (set toggle false) for answers matching their question (or questionid, but in that case will also have to update the radio name groups)
+          // if ((question = question)) {
+          //   return {
+          //     ...ansObj,
+          //     toggled: false,
+          //   };
+          // } else
+          else {
+            // return {
+            //   ...ansObj,
+            //   toggled: false, // however, this must only set false to the answers in the questiongroup (questionID)
+            // };
             return ansObj;
           }
         });
@@ -70,7 +88,7 @@ export default function Trivia() {
         return {
           ...pam,
           answerObjects: diffData,
-          questionToggled: true,
+          // questionToggled: true,
         };
         //}
       });
@@ -104,11 +122,46 @@ export default function Trivia() {
       });
     });
     //
+    gameBoard(); // Game statistics
+  }
+
+  // async
+  function gameBoard() {
+    // await correctChecker();
+
+    // console.log(scoreCount); // problem is that scoreCount isnt rendered yet
+    setGameStats((prevHistory) => {
+      if (scoreCount == 5) {
+        return {
+          ...prevHistory,
+          totalGames: prevHistory.totalGames + 1,
+          totalWins: prevHistory.totalWins + 1,
+        };
+      } else {
+        return {
+          ...prevHistory,
+          totalGames: prevHistory.totalGames + 1,
+        };
+      }
+
+      // return {
+      //   ...prevHistory,
+      //   totalGames: prevHistory.totalGames + 1,
+      //   totalAnswers: prevHistory.totalAnswers + 20,
+      //   totalCorrect: prevHistory.totalCorrect + { scoreCount }, // need to fix
+      //   // need to fix
+      //   totalWins:
+      //     { scoreCount } == 5
+      //       ? prevHistory.totalWins + 1
+      //       : prevHistory.totalWins,
+      // };
+    });
+    // }
   }
 
   function submit() {
-    setEndGame(true);
     correctChecker();
+    setEndGame(true);
     setGameStage(1); // Proceed to stage 1
   }
 
@@ -147,16 +200,19 @@ export default function Trivia() {
 
   return (
     <div className="game-container">
-      {gameElements}
-      {gameStage === 0 && (
-        <div className="button-box">
-          <div className="button" onClick={submit}>
-            Submit Answers
+      {gameStage == 0 && (
+        <div>
+          {gameElements}
+          <div className="button-box">
+            <div className="button" onClick={submit}>
+              Submit Answers
+            </div>
           </div>
         </div>
       )}
-      {gameStage === 1 && (
+      {gameStage == 1 && (
         <div>
+          {gameElements}
           <h2>Score: {scoreCount} / 5</h2>
           {scoreCount == 5 && (
             <div>
@@ -170,6 +226,10 @@ export default function Trivia() {
           </div>
         </div>
       )}
+      <GameStats
+        totalGames={gameStats?.totalGames}
+        totalWins={gameStats?.totalWins}
+      />
     </div>
   );
 }

@@ -15,7 +15,14 @@ export default function Answer(props) {
       style = {
         backgroundColor: "red",
       };
-    } else if (gameOver === false && toggled) {
+    }
+    // else if (gameOver && isCorrect) {
+    //   //trying to make correct button change to green to show which was correct after game
+    //   style = {
+    //     backgroundColor: "blue", //blue for debug, green for launch
+    //   };
+    // }
+    else if (gameOver === false && toggled) {
       style = {
         backgroundColor: "rgb(0, 153, 255)",
       };
