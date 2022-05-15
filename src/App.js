@@ -5,7 +5,6 @@ import Trivia from "./components/Trivia";
 import Footer from "./components/Footer";
 import image1 from "./images/blob1.png";
 import { usePromiseTracker } from "react-promise-tracker";
-import { nanoid } from "nanoid";
 
 const LoadingIndicator = (props) => {
   const { promiseInProgress } = usePromiseTracker();
@@ -22,15 +21,15 @@ export default function App() {
   }
 
   return (
-    <div className="container" key={nanoid()}>
+    <div className="container">
       <img src={image1} className="bg-image1" alt=""></img>
       <Header />
       <LoadingIndicator />
       {isNew && (
         <div>
           <Welcome />
-          <div className="button-box" key={nanoid()}>
-            <div className="button" onClick={isReady} key={nanoid()}>
+          <div className="button-box">
+            <div className="button" onClick={isReady}>
               I'm ready!
             </div>
           </div>

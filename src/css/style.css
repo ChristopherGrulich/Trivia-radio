@@ -67,11 +67,43 @@ body {
   margin: 20px;
 }
 
+.answer-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 40px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
 .answer-box {
   display: grid;
   grid-template: auto auto / repeat(5, 1fr);
   margin: 20px;
 }
+
+/* Start radio mods */
+
+.answer-radio label {
+  text-align: center;
+  background-color: rgb(199, 199, 199);
+  color: black;
+  font-size: 14px;
+  padding: 8px;
+  font-weight: 700;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin: 5px;
+  display: flex;
+  width: 120px;
+  cursor: pointer;
+}
+
+.radiobox-test {
+  display: none;
+}
+
+/* End radio mods */
 
 .submit-box {
   color: white;
@@ -107,15 +139,6 @@ body {
   font-size: 22px;
   font-weight: bold;
   text-align: center;
-}
-
-.answer-container {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  gap: 40px;
-  margin-top: 5px;
-  margin-bottom: 15px;
 }
 
 .loading {
