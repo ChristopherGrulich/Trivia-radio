@@ -7,17 +7,25 @@ export default function createStateObj(item) {
     ...item.incorrect_answers,
   ]);
 
+  // replaceAll below will fix the API's escaped entities
+
   const answers = answersRandom.map((answer) => {
     return {
       answerid: nanoid(),
-      answer,
+      answer: answer
+        .replaceAll("&#039;", "'")
+        .replaceAll("&amp;", "&")
+        .replaceAll("&quot;", '"'),
       isCorrect: false,
       toggled: false,
     };
   });
 
   return {
-    question: item.question,
+    question: item.question
+      .replaceAll("&#039;", "'")
+      .replaceAll("&amp;", "&")
+      .replaceAll("&quot;", '"'),
     answerObjects: answers,
     correct_answer: item.correct_answer,
   };

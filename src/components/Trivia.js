@@ -60,7 +60,6 @@ export default function Trivia() {
   //
 
   function onClick(answerid, question) {
-    console.log(question);
     setGameData((prevData) => {
       //
       return prevData?.map((pam) => {
