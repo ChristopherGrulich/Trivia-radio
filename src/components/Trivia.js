@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import ReactConfetti from "react-confetti";
 import { trackPromise } from "react-promise-tracker";
 import GameStats from "./GameStats";
+import { useRef } from "react";
 
 export default function Trivia() {
   const [gameData, setGameData] = React.useState([
@@ -30,6 +31,8 @@ export default function Trivia() {
   );
   const [endGame, setEndGame] = React.useState(false); // once all answers selected // submit button
   const [scoreCount, setScoreCount] = React.useState(0); // track score
+  const stateRef = useRef(); // track score for callback functions
+  stateRef.current = scoreCount;
   const [startNewGame, setStartNewGame] = React.useState(false);
   const [gameStage, setGameStage] = React.useState(0);
   // gameStage: Where we are on the app: 0 for fresh arrival on game page, 1 for submitted state, 2 for new game state
@@ -125,39 +128,22 @@ export default function Trivia() {
     gameBoard(); // Game statistics
   }
 
-  // async
   function gameBoard() {
-    // await correctChecker();
-
-    // console.log(scoreCount); // problem is that scoreCount isnt rendered yet
-    setGameStats((prevHistory) => {
-      if (scoreCount == 5) {
+    setScoreCount((prevCount) => {
+      setGameStats((prevStats) => {
+        //
         return {
-          ...prevHistory,
-          totalGames: prevHistory.totalGames + 1,
-          totalWins: prevHistory.totalWins + 1,
+          ...prevStats,
+          totalGames: prevStats.totalGames + 1,
+          totalWins:
+            stateRef.current == 5 // stateRef.current for use of states in callback functions. (Something with React closures...)
+              ? prevStats.totalWins + 1
+              : prevStats.totalWins,
         };
-      } else {
-        return {
-          ...prevHistory,
-          totalGames: prevHistory.totalGames + 1,
-        };
-      }
-
-      // return {
-      //   ...prevHistory,
-      //   totalGames: prevHistory.totalGames + 1,
-      //   totalAnswers: prevHistory.totalAnswers + 20,
-      //   totalCorrect: prevHistory.totalCorrect + { scoreCount }, // need to fix
-      //   // need to fix
-      //   totalWins:
-      //     { scoreCount } == 5
-      //       ? prevHistory.totalWins + 1
-      //       : prevHistory.totalWins,
-      // };
+        //
+      });
+      return prevCount;
     });
-    // }
-    //
   }
 
   function submit() {
