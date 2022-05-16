@@ -164,7 +164,11 @@ body {
 
 /* End radio mods */
 
-.submit-box {
+.round-over {
+  text-align: center;
+}
+
+.center-box {
   color: white;
   background-color: rgb(94, 180, 238);
   border: 2px solid black;
@@ -199,5 +203,5 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fffad1;
+  color: white;
 }

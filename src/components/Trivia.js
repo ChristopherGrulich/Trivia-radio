@@ -206,16 +206,20 @@ export default function Trivia() {
       {gameStage == 1 && (
         <div>
           {gameElements}
-          <h2>Score: {scoreCount} / 5</h2>
-          {scoreCount == 5 && (
-            <div>
-              <ReactConfetti />
-              <h2>Perfect score, congrats!</h2>
+          <div className="round-over">
+            <h3>Score: {scoreCount} / 5</h3>
+            {scoreCount == 5 && (
+              <div>
+                <ReactConfetti />
+                <h3>Perfect score, congrats!</h3>
+              </div>
+            )}
+            <h3>Up for another round?</h3>
+            <div className="button-box">
+              <div className="button" onClick={newGame}>
+                Start New Game
+              </div>
             </div>
-          )}
-          <h3>Up for another round?</h3>
-          <div className="button" onClick={newGame}>
-            Start New Game
           </div>
         </div>
       )}
@@ -226,3 +230,28 @@ export default function Trivia() {
     </div>
   );
 }
+
+// React.useEffect(() => {
+//   trackPromise(
+//     fetch(
+//       "https://opentdb.com/api.php?amount=5&category=20&difficulty=medium&type=multiple"
+//     )
+//       .then((res) => res.json())
+//       .then((data) =>
+//         setGameData(() => {
+//           const newData = JSON.stringify(data);
+
+//           const newDataUpd = JSON.parse(
+//             newData
+//               .replaceAll("&#039;", "'")
+//               .replaceAll("&amp;", "&")
+//               .replaceAll("&quot;", '"')
+//           );
+
+//           return newDataUpd.results.map((item) => {
+//             return createStateObj(item);
+//           });
+//         })
+//       )
+//   );
+// }, [startNewGame]);
