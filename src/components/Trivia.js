@@ -32,7 +32,7 @@ export default function Trivia() {
   const [endGame, setEndGame] = React.useState(false); // once all answers selected // submit button
   const [scoreCount, setScoreCount] = React.useState(0); // track score
   const stateRef = useRef(); // track score for callback functions
-  stateRef.current = scoreCount;
+  stateRef.score = scoreCount;
   const [startNewGame, setStartNewGame] = React.useState(false);
   const [gameStage, setGameStage] = React.useState(0);
   // gameStage: Where we are on the app: 0 for fresh arrival on game page, 1 for submitted state, 2 for new game state
@@ -59,31 +59,24 @@ export default function Trivia() {
 
   //
 
-  function onClick(answerid) {
+  function onClick(answerid, question) {
+    console.log(question);
     setGameData((prevData) => {
       //
       return prevData?.map((pam) => {
         //
         const diffData = pam?.answerObjects?.map((ansObj) => {
-          if (answerid == ansObj.answerid) {
+          if (question == pam.question && answerid == ansObj.answerid) {
             return {
               ...ansObj,
-              toggled: !ansObj.toggled,
-              // toggled: true,
+              toggled: true,
             };
-            // How to retrieve the question?! param wont work..
-          } // // // // // ===> Only do below (set toggle false) for answers matching their question (or questionid, but in that case will also have to update the radio name groups)
-          // if ((question = question)) {
-          //   return {
-          //     ...ansObj,
-          //     toggled: false,
-          //   };
-          // } else
-          else {
-            // return {
-            //   ...ansObj,
-            //   toggled: false, // however, this must only set false to the answers in the questiongroup (questionID)
-            // };
+          } else if (question == pam.question) {
+            return {
+              ...ansObj,
+              toggled: false,
+            };
+          } else {
             return ansObj;
           }
         });
@@ -91,7 +84,6 @@ export default function Trivia() {
         return {
           ...pam,
           answerObjects: diffData,
-          // questionToggled: true,
         };
         //}
       });
@@ -136,7 +128,7 @@ export default function Trivia() {
           ...prevStats,
           totalGames: prevStats.totalGames + 1,
           totalWins:
-            stateRef.current == 5 // stateRef.current for use of states in callback functions. (Something with React closures...)
+            stateRef.score == 5 // stateRef.current for use of states in callback functions. (Something with React closures...)
               ? prevStats.totalWins + 1
               : prevStats.totalWins,
         };
@@ -171,7 +163,7 @@ export default function Trivia() {
                   key={nanoid()}
                   answer={innerTrivia.answer}
                   answerid={innerTrivia.answerid}
-                  onClick={() => onClick(innerTrivia.answerid)}
+                  onClick={() => onClick(innerTrivia.answerid, trivia.question)}
                   toggled={innerTrivia.toggled}
                   isCorrect={innerTrivia.isCorrect}
                   gameOver={endGame}
