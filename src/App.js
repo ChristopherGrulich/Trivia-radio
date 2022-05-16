@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import Welcome from "./components/Welcome";
 import Trivia from "./components/Trivia";
 import Footer from "./components/Footer";
-import image1 from "./images/blob1.png";
+// import image1 from "./images/blob1.png";
 import { usePromiseTracker } from "react-promise-tracker";
 
 const LoadingIndicator = (props) => {
@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <div className="container">
-      <img src={image1} className="bg-image1" alt=""></img>
+      {/* <img src={image1} className="bg-image1" alt=""></img> */}
       <Header />
       <LoadingIndicator />
       {isNew && (
