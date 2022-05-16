@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/trivia-radio/static/css/main.ad65915e.css",
+    "main.js": "/trivia-radio/static/js/main.0e669d72.js",
+    "static/media/bgmain.png": "/trivia-radio/static/media/bgmain.c9c5b1f34e9a0d5a0bbc.png",
+    "index.html": "/trivia-radio/index.html",
+    "main.ad65915e.css.map": "/trivia-radio/static/css/main.ad65915e.css.map",
+    "main.0e669d72.js.map": "/trivia-radio/static/js/main.0e669d72.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ad65915e.css",
+    "static/js/main.0e669d72.js"
+  ]
+}
