@@ -6,7 +6,7 @@ export default function GameStats(props) {
     <div className="stats-container">
       <div className="game-stats">
         <p>
-          Games Played: {totalGames} || Perfect Scores: {totalWins}
+          Games Played: {totalGames} - Perfect Scores: {totalWins}
         </p>
       </div>
     </div>

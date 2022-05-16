@@ -17,7 +17,7 @@ export default function Answer(props) {
       };
     } else if (gameOver === false && toggled) {
       style = {
-        backgroundColor: "rgb(94, 180, 238)",
+        backgroundColor: "#55bbfe",
       };
     }
 

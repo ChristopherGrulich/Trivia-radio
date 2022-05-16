@@ -29,7 +29,7 @@ export default function Trivia() {
       totalWins: 0,
     }
   );
-  const [endGame, setEndGame] = React.useState(false); // once all answers selected // submit button
+  const [endGame, setEndGame] = React.useState(false); // submit button
   const [scoreCount, setScoreCount] = React.useState(0); // track score
   const stateRef = useRef(); // track score for callback functions
   stateRef.score = scoreCount;
@@ -153,7 +153,9 @@ export default function Trivia() {
   const gameElements = gameData?.map((trivia) => {
     return (
       <div className="game-container" key={nanoid()}>
-        <Question question={trivia.question} />
+        <div className="question-container">
+          <Question question={trivia.question} />
+        </div>
         <div className="answer-container">
           {trivia?.answerObjects?.map((innerTrivia) => {
             return (
@@ -171,6 +173,19 @@ export default function Trivia() {
             );
           })}
         </div>
+
+        {gameStage == 1 && (
+          <div className="correct-answer">
+            <p>
+              Correct Answer:
+              {" " +
+                trivia.correct_answer
+                  .replaceAll("&#039;", "'")
+                  .replaceAll("&amp;", "&")
+                  .replaceAll("&quot;", '"')}
+            </p>
+          </div>
+        )}
         <hr></hr>
       </div>
     );
