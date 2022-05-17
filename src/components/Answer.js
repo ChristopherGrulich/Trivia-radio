@@ -11,11 +11,11 @@ export default function Answer(props) {
       style = {
         backgroundColor: "rgb(87, 183, 106)",
       };
-    } else if (gameOver && toggled && isCorrect !== true) {
+    } else if (gameOver && toggled && isCorrect != true) {
       style = {
         backgroundColor: "rgb(243, 139, 139)",
       };
-    } else if (gameOver === false && toggled) {
+    } else if (gameOver == false && toggled) {
       style = {
         backgroundColor: "#55bbfe",
       };
@@ -26,7 +26,7 @@ export default function Answer(props) {
 
   return (
     <div className="answer-radio" key={nanoid()}>
-      <div className="radiobox-test">
+      <div className="radiobox">
         <input
           type="radio"
           id={answerid} // giving form and label their own pair id, allows clicking on label for same radio.

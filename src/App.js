@@ -15,9 +15,20 @@ const LoadingIndicator = (props) => {
 
 export default function App() {
   const [isNew, setIsNew] = React.useState(true);
+  const [categoryChoice, setCategoryChoice] = React.useState(
+    "https://opentdb.com/api.php?amount=5&category=20&difficulty=medium&type=multiple"
+  );
 
   function isReady() {
     setIsNew(false);
+  }
+
+  function categorySelect() {
+    setCategoryChoice(
+      `https://opentdb.com/api.php?amount=5&category=${
+        document.getElementById("category").value
+      }&difficulty=medium&type=multiple`
+    );
   }
 
   return (
@@ -28,6 +39,19 @@ export default function App() {
       {isNew && (
         <div>
           <Welcome />
+          <div className="category-choice">
+            <select id="category" onChange={categorySelect}>
+              <option selected disabled>
+                Select Category
+              </option>
+              <option value="20">Mythology</option>
+              <option value="22">Geography</option>
+              <option value="21">Sports</option>
+              <option value="23">History</option>
+              <option value="25">Art</option>
+              <option value="28">Vehicles</option>
+            </select>
+          </div>
           <div className="button-box">
             <div className="button" onClick={isReady}>
               I'm ready!
@@ -36,7 +60,7 @@ export default function App() {
         </div>
       )}
 
-      {isNew === false && <Trivia />}
+      {isNew === false && <Trivia categoryChoice={categoryChoice} />}
 
       <Footer />
     </div>

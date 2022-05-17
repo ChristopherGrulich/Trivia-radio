@@ -6,9 +6,9 @@ import { nanoid } from "nanoid";
 import ReactConfetti from "react-confetti";
 import { trackPromise } from "react-promise-tracker";
 import GameStats from "./GameStats";
-import { useRef } from "react";
 
-export default function Trivia() {
+export default function Trivia(props) {
+  const { categoryChoice } = props;
   const [gameData, setGameData] = React.useState([
     {
       question: "|question|",
@@ -23,6 +23,7 @@ export default function Trivia() {
       correct_answer: "|correct_answer|",
     },
   ]);
+  const numOfQuestions = gameData?.length; // Count of our total questions. (5 in this context, unless we change the API settings!)
   const [gameStats, setGameStats] = React.useState(
     JSON.parse(localStorage.getItem("gameStats")) || {
       totalGames: 0,
@@ -31,7 +32,7 @@ export default function Trivia() {
   );
   const [endGame, setEndGame] = React.useState(false); // submit button
   const [scoreCount, setScoreCount] = React.useState(0); // track score
-  const stateRef = useRef(); // track score for callback functions
+  const stateRef = React.useRef(); // track score for callback functions
   stateRef.score = scoreCount;
   const [startNewGame, setStartNewGame] = React.useState(false);
   const [gameStage, setGameStage] = React.useState(0);
@@ -39,9 +40,7 @@ export default function Trivia() {
 
   React.useEffect(() => {
     trackPromise(
-      fetch(
-        "https://opentdb.com/api.php?amount=5&category=20&difficulty=medium&type=multiple"
-      )
+      fetch(categoryChoice)
         .then((res) => res.json())
         .then((data) =>
           setGameData(() =>
@@ -60,6 +59,7 @@ export default function Trivia() {
   //
 
   function onClick(answerid, question) {
+    console.log(gameData.length);
     setGameData((prevData) => {
       //
       return prevData?.map((pam) => {
@@ -127,7 +127,7 @@ export default function Trivia() {
           ...prevStats,
           totalGames: prevStats.totalGames + 1,
           totalWins:
-            stateRef.score == 5 // stateRef.current for use of states in callback functions. (Something with React closures...)
+            stateRef.score == numOfQuestions // stateRef.current for use of states in callback functions. (Function closures)
               ? prevStats.totalWins + 1
               : prevStats.totalWins,
         };
@@ -207,8 +207,10 @@ export default function Trivia() {
         <div>
           {gameElements}
           <div className="round-over">
-            <h3>Score: {scoreCount} / 5</h3>
-            {scoreCount == 5 && (
+            <h3>
+              Score: {scoreCount} / {numOfQuestions}
+            </h3>
+            {scoreCount == numOfQuestions && (
               <div>
                 <ReactConfetti />
                 <h3>Perfect score, congrats!</h3>
@@ -230,7 +232,7 @@ export default function Trivia() {
     </div>
   );
 }
-
+//
 // React.useEffect(() => {
 //   trackPromise(
 //     fetch(
