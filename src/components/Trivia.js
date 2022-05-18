@@ -146,10 +146,17 @@ export default function Trivia(props) {
       .replaceAll("&quot;", '"')
       .replaceAll("&Auml;", "Ä")
       .replaceAll("&auml;", "ä")
+      .replaceAll("&agrave;", "à")
+      .replaceAll("&Agrave;", "À")
+      .replaceAll("&Aring;", "Å")
+      .replaceAll("&aring;", "å")
+      .replaceAll("&Ccedil;", "Ç")
+      .replaceAll("&ccedil;", "ç")
       .replaceAll("&Eacute;", "É")
       .replaceAll("&eacute;", "é")
       .replaceAll("&Egrave;", "È")
       .replaceAll("&egrave;", "è")
+      .replaceAll("&szlig;", "ß")
       .replaceAll("&ldquo;", "“")
       .replaceAll("&rdquo;", "”");
   }

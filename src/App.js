@@ -44,11 +44,12 @@ export default function App() {
           <div className="category-choice">
             <p>Select Category: </p>
             <select id="category" onChange={categorySelect}>
-              <option value="20">Mythology</option>
+              <option selected value="20">
+                Mythology
+              </option>
               <option value="22">Geography</option>
               <option value="21">Sports</option>
               <option value="23">History</option>
-              <option value="25">Art</option>
               <option value="28">Vehicles</option>
             </select>
             <p>Number of Questions: </p>
@@ -58,7 +59,6 @@ export default function App() {
               </option>
               <option value="10">10</option>
               <option value="15">15</option>
-              <option value="20">20</option>
             </select>
           </div>
           <div className="button-box">
