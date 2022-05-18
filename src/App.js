@@ -25,7 +25,9 @@ export default function App() {
 
   function categorySelect() {
     setCategoryChoice(
-      `https://opentdb.com/api.php?amount=5&category=${
+      `https://opentdb.com/api.php?amount=${
+        document.getElementById("questionAmnt").value
+      }&category=${
         document.getElementById("category").value
       }&difficulty=medium&type=multiple`
     );
@@ -40,16 +42,23 @@ export default function App() {
         <div>
           <Welcome />
           <div className="category-choice">
+            <p>Select Category: </p>
             <select id="category" onChange={categorySelect}>
-              <option selected disabled>
-                Select Category
-              </option>
               <option value="20">Mythology</option>
               <option value="22">Geography</option>
               <option value="21">Sports</option>
               <option value="23">History</option>
               <option value="25">Art</option>
               <option value="28">Vehicles</option>
+            </select>
+            <p>Number of Questions: </p>
+            <select id="questionAmnt" onChange={categorySelect}>
+              <option selected value="5">
+                5
+              </option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
             </select>
           </div>
           <div className="button-box">

@@ -1,14 +1,16 @@
 import shuffle from "./shuffle";
 import { nanoid } from "nanoid";
 
-export default function createStateObj(item) {
+export default function createStateObj(item, fixEscChars) {
+  // Initially implemented to remove escaped chars directly from the entire gameData set... but have a bug here.
   // const s1 = JSON.stringify(item);
   // const s2 = JSON.parse(
   //   s1
   //     .replaceAll("&#039;", "'")
-  //     .replaceAll("&amp;", "&") // Initially implemented to remove escaped chars from the entire gameData set... but have a bug here.
+  //     .replaceAll("&amp;", "&")
   //     .replaceAll("&quot;", '"')
   // );
+
   const answersRandom = shuffle([
     item.correct_answer,
     ...item.incorrect_answers,
@@ -19,24 +21,15 @@ export default function createStateObj(item) {
   const answers = answersRandom.map((answer) => {
     return {
       answerid: nanoid(),
-      answer: answer
-        .replaceAll("&#039;", "'")
-        .replaceAll("&amp;", "&")
-        .replaceAll("&quot;", '"'),
+      answer: fixEscChars(answer),
       isCorrect: false,
       toggled: false,
     };
   });
 
   return {
-    question: item.question
-      .replaceAll("&#039;", "'")
-      .replaceAll("&amp;", "&")
-      .replaceAll("&quot;", '"'),
+    question: fixEscChars(item.question),
     answerObjects: answers,
-    correct_answer: item.correct_answer
-      .replaceAll("&#039;", "'")
-      .replaceAll("&amp;", "&")
-      .replaceAll("&quot;", '"'),
+    correct_answer: fixEscChars(item.correct_answer),
   };
 }

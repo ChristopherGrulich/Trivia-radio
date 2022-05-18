@@ -45,11 +45,12 @@ export default function Trivia(props) {
         .then((data) =>
           setGameData(() =>
             data.results.map((item) => {
-              return createStateObj(item);
+              return createStateObj(item, fixEscChars);
             })
           )
         )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startNewGame]);
 
   React.useEffect(() => {
@@ -137,6 +138,22 @@ export default function Trivia(props) {
     });
   }
 
+  function fixEscChars(stringValue) {
+    //way to create arr/obj of value/keys to map through?
+    return stringValue
+      .replaceAll("&#039;", "'")
+      .replaceAll("&amp;", "&")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&Auml;", "Ä")
+      .replaceAll("&auml;", "ä")
+      .replaceAll("&Eacute;", "É")
+      .replaceAll("&eacute;", "é")
+      .replaceAll("&Egrave;", "È")
+      .replaceAll("&egrave;", "è")
+      .replaceAll("&ldquo;", "“")
+      .replaceAll("&rdquo;", "”");
+  }
+
   function submit() {
     correctChecker();
     setEndGame(true);
@@ -178,11 +195,7 @@ export default function Trivia(props) {
           <div className="correct-answer">
             <p>
               Correct Answer:
-              {" " +
-                trivia.correct_answer
-                  .replaceAll("&#039;", "'")
-                  .replaceAll("&amp;", "&")
-                  .replaceAll("&quot;", '"')}
+              {" " + fixEscChars(trivia.correct_answer)}
             </p>
           </div>
         )}
@@ -210,7 +223,7 @@ export default function Trivia(props) {
             <h3>
               Score: {scoreCount} / {numOfQuestions}
             </h3>
-            {scoreCount == numOfQuestions && (
+            {scoreCount == true && (
               <div>
                 <ReactConfetti />
                 <h3>Perfect score, congrats!</h3>
@@ -232,28 +245,3 @@ export default function Trivia(props) {
     </div>
   );
 }
-//
-// React.useEffect(() => {
-//   trackPromise(
-//     fetch(
-//       "https://opentdb.com/api.php?amount=5&category=20&difficulty=medium&type=multiple"
-//     )
-//       .then((res) => res.json())
-//       .then((data) =>
-//         setGameData(() => {
-//           const newData = JSON.stringify(data);
-
-//           const newDataUpd = JSON.parse(
-//             newData
-//               .replaceAll("&#039;", "'")
-//               .replaceAll("&amp;", "&")
-//               .replaceAll("&quot;", '"')
-//           );
-
-//           return newDataUpd.results.map((item) => {
-//             return createStateObj(item);
-//           });
-//         })
-//       )
-//   );
-// }, [startNewGame]);
