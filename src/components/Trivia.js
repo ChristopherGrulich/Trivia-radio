@@ -230,7 +230,7 @@ export default function Trivia(props) {
             <h3>
               Score: {scoreCount} / {numOfQuestions}
             </h3>
-            {scoreCount == true && (
+            {scoreCount == numOfQuestions && (
               <div>
                 <ReactConfetti />
                 <h3>Perfect score, congrats!</h3>
