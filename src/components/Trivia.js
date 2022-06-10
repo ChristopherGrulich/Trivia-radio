@@ -6,9 +6,8 @@ import { nanoid } from "nanoid";
 import ReactConfetti from "react-confetti";
 import { trackPromise } from "react-promise-tracker";
 import GameStats from "./GameStats";
-import {CategoryProps} from "../utility/types"
 
-export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
+export default function Trivia(props) {
   const { categoryChoice } = props;
   const [gameData, setGameData] = React.useState([
     {
@@ -31,11 +30,10 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
       totalWins: 0,
     }
   );
-
   const [endGame, setEndGame] = React.useState(false); // submit button
   const [scoreCount, setScoreCount] = React.useState(0); // track score
-  const stateRef = React.useRef<number>(); // track score for callback functions
-  stateRef.current = scoreCount;
+  const stateRef = React.useRef(); // track score for callback functions
+  stateRef.score = scoreCount;
   const [startNewGame, setStartNewGame] = React.useState(false);
   const [gameStage, setGameStage] = React.useState(0);
   // gameStage: Where we are on the app: 0 for fresh arrival on game page, 1 for submitted state, 2 for new game state
@@ -64,14 +62,16 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
   function onClick(answerid, question) {
     console.log(gameData.length);
     setGameData((prevData) => {
+      //
       return prevData?.map((pam) => {
+        //
         const diffData = pam?.answerObjects?.map((ansObj) => {
-          if (question === pam.question && answerid === ansObj.answerid) {
+          if (question == pam.question && answerid == ansObj.answerid) {
             return {
               ...ansObj,
               toggled: true,
             };
-          } else if (question === pam.question) {
+          } else if (question == pam.question) {
             return {
               ...ansObj,
               toggled: false,
@@ -80,19 +80,25 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
             return ansObj;
           }
         });
+        //
         return {
           ...pam,
           answerObjects: diffData,
         };
+        //}
       });
+      //
     });
   }
 
   function correctChecker() {
     setGameData((prevData) => {
+      //
       return prevData?.map((pom) => {
+        //
         const upd = pom?.answerObjects?.map((innerPom) => {
-          if (innerPom.toggled && pom.correct_answer === innerPom.answer) {
+          //
+          if (innerPom.toggled && pom.correct_answer == innerPom.answer) {
             setScoreCount((prevCount) => prevCount + 1);
             return {
               ...innerPom,
@@ -101,33 +107,39 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
           } else {
             return innerPom;
           }
+          //
         });
+        //
         return {
           ...pom,
           answerObjects: upd,
         };
       });
     });
+    //
     gameBoard(); // Game statistics
   }
 
   function gameBoard() {
     setScoreCount((prevCount) => {
       setGameStats((prevStats) => {
+        //
         return {
           ...prevStats,
           totalGames: prevStats.totalGames + 1,
           totalWins:
-            stateRef.current === numOfQuestions // stateRef.current for use of states in callback functions. (Function closures)
+            stateRef.score == numOfQuestions // stateRef.current for use of states in callback functions. (Function closures)
               ? prevStats.totalWins + 1
               : prevStats.totalWins,
         };
+        //
       });
       return prevCount;
     });
   }
 
   function fixEscChars(stringValue) {
+    //way to create arr/obj of value/keys to map through?
     return stringValue
       .replaceAll("&#039;", "'")
       .replaceAll("&amp;", "&")
@@ -180,14 +192,13 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
                   toggled={innerTrivia.toggled}
                   isCorrect={innerTrivia.isCorrect}
                   gameOver={endGame}
-                  question={trivia.question}
                 />
               </div>
             );
           })}
         </div>
 
-        {gameStage === 1 && (
+        {gameStage == 1 && (
           <div className="correct-answer">
             <p>
               Correct Answer:
@@ -202,7 +213,7 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
 
   return (
     <div className="game-container">
-      {gameStage === 0 && (
+      {gameStage == 0 && (
         <div>
           {gameElements}
           <div className="button-box">
@@ -212,14 +223,14 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
           </div>
         </div>
       )}
-      {gameStage === 1 && (
+      {gameStage == 1 && (
         <div>
           {gameElements}
           <div className="round-over">
             <h3>
               Score: {scoreCount} / {numOfQuestions}
             </h3>
-            {scoreCount === numOfQuestions && (
+            {scoreCount == numOfQuestions && (
               <div>
                 <ReactConfetti />
                 <h3>Perfect score, congrats!</h3>
@@ -241,5 +252,3 @@ export const Trivia: React.FC<CategoryProps> = (props: CategoryProps) => {
     </div>
   );
 }
-
-export default Trivia

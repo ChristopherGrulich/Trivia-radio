@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Welcome = (props) => {
+export default function Welcome(props) {
   return (
     <div className="welcome">
       <h2>Welcome to the Trivia!</h2>
@@ -8,5 +8,3 @@ export const Welcome = (props) => {
     </div>
   );
 }
-
-export default Welcome
