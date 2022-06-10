@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Welcome(props) {
+export const Welcome = (props) => {
   return (
     <div className="welcome">
       <h2>Welcome to the Trivia!</h2>
@@ -8,3 +8,5 @@ export default function Welcome(props) {
     </div>
   );
 }
+
+export default Welcome

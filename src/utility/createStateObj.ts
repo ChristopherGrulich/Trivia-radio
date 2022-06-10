@@ -2,14 +2,6 @@ import shuffle from "./shuffle";
 import { nanoid } from "nanoid";
 
 export default function createStateObj(item, fixEscChars) {
-  // Initially implemented to remove escaped chars directly from the entire gameData set... but have a bug here.
-  // const s1 = JSON.stringify(item);
-  // const s2 = JSON.parse(
-  //   s1
-  //     .replaceAll("&#039;", "'")
-  //     .replaceAll("&amp;", "&")
-  //     .replaceAll("&quot;", '"')
-  // );
 
   const answersRandom = shuffle([
     item.correct_answer,
@@ -17,8 +9,7 @@ export default function createStateObj(item, fixEscChars) {
   ]);
 
   // replaceAll below will fix the API's escaped entities
-
-  const answers = answersRandom.map((answer) => {
+  const answers = answersRandom.map((answer: string) => {
     return {
       answerid: nanoid(),
       answer: fixEscChars(answer),
